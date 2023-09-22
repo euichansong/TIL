@@ -1,9 +1,11 @@
 # kruskal 알고리즘
+import sys
+input = sys.stdin.readline
 
 n = int(input())
 m = int(input())
 
-
+# find_set 함수
 def find_set(x):
     if parents[x] == x:
         return x
@@ -11,7 +13,7 @@ def find_set(x):
     parents[x] = find_set(parents[x])
     return parents[x]
 
-
+# union 함수
 def union(x, y):
     x = find_set(x)
     y = find_set(y)
@@ -24,11 +26,12 @@ def union(x, y):
     else:
         parents[x] = y
 
-
+# 간선 리스트
 edge = []
 for _ in range(m):
     f, t, w = map(int, input().split())
     edge.append([f, t, w])
+# 가중치를 기준으로 오름차순
 edge.sort(key=lambda x: x[2])
 parents = [i for i in range(n+1)]
 cnt = 0
