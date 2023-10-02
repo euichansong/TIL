@@ -27,12 +27,14 @@ def bfs():
 
 
 x, y, z = map(int, input().split())
+
+# 3차원 배열
 matrix = [[list(map(int, input().split())) for _ in range(y)] for _ in range(z)]
-# print(matrix)
 # bfs 함수 실행
 bfs()
+# 0이 나오면 토마토가 다 안익는 다는 뜻
+# 맥스값 찾기 == 최소 일수 찾는것
 flag = True
-# print(matrix)
 maxx = 0
 for a in range(z):
     for b in range(y):
