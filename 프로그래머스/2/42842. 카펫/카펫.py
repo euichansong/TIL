@@ -3,7 +3,7 @@ def solution(brown, yellow):
     # print(total)
     answer = []
     
-    for se in range(1, (total //2) + 1):
+    for se in range(1, (total // 3) + 1): # 범위 줄이기
         if total % se == 0:
             ga = total // se
             print(ga,se)
