@@ -1,5 +1,4 @@
 def solution(record):
-    
     namedict = {}
     recordlist = []
     for i in record:
@@ -13,7 +12,7 @@ def solution(record):
                 namedict[space[1]] = space[2]
         
     answer = []
-    # for order, id in recordlist:
+    # for order, id in recordlist: ## 시간초과
     #     if order == 'Enter':
     #         for k, v in namedict.items():
     #             if k == id:
@@ -24,7 +23,6 @@ def solution(record):
     #             if k == id:
     #                 word = v + '님이 나갔습니다.'
     #                 answer.append(word)
-                    
     for order, id in recordlist:
         if order == 'Enter':
             word = namedict[id] + '님이 들어왔습니다.'
