@@ -1,16 +1,12 @@
 n = int(input())
-wine =  [0]*10001
-dp =  [0]*10001
+winelist = [0] + [int(input()) for _ in range(n)]
+dp = [0] * (n+1)
 
-for i in range(n):
-    a = int(input())
-    wine[i] = a
+dp[1] = winelist[1]
+if n > 1:
+    dp[2] = winelist[1] + winelist[2]
 
-dp[0] = wine[0]
-dp[1] = wine[0]+wine[1]
-dp[2] = max(wine[0]+wine[2], wine[1]+wine[2],dp[1])
+for i in range(3, n+1):
+    dp[i] = max(dp[i-1], dp[i-2] + winelist[i], dp[i-3] + winelist[i-1] + winelist[i])
 
-for i in range(3, n):
-    dp[i] = max(dp[i-3] + wine[i-1] + wine[i], dp[i-2]+wine[i], dp[i-1])
-
-print(dp[n-1])
+print(dp[n])
