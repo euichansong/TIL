@@ -2,21 +2,23 @@ from collections import deque
 import sys
 input = sys.stdin.readline
 
-n, m = map(int, input().split())
-abilities = list(map(int, input().split()))
-abilities.sort()
+n,m = map(int, input().split())
+nlist = list(map(int, input().split()))
+# 정렬
+nlist.sort()
+nlist = deque(nlist)
 
-abilities = deque(abilities)
-team_count = 0
-
-while len(abilities) > 1:
-    if abilities[0] + abilities[-1] >= m:
-        # 가장 작은 값과 가장 큰 값을 합쳐서 조건을 만족하면
-        abilities.popleft()  # 가장 작은 값을 제거
-        abilities.pop()      # 가장 큰 값을 제거
-        team_count += 1
+answer = 0
+# 길이가 1보다 클때까지
+while len(nlist) > 1:
+    # 가장 작은값 큰값 더해서 m보다 크면 
+    if nlist[0] + nlist[-1] >= m:
+        # 작은값 빼고
+        nlist.popleft()
+        # 큰값 뺀다
+        nlist.pop()
+        answer += 1
     else:
-        # 조건을 만족하지 않으면 가장 작은 값만 제거
-        abilities.popleft()
-
-print(team_count)
+        # 아니면 가장 작은값 빼고 다시
+        nlist.popleft()
+print(answer)
