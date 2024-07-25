@@ -38,7 +38,7 @@ def solution(jobs):
     # 0으로 놓고 이상으로 범위 설정하면 안된다 
     start = -1
     while cnt < len(jobs):
-        # 작업 힙큐에 넣는다
+        # 작업 힙큐에 넣는다s
         for i in jobs:
             # 현재 시간보다 작은 것만
             # 시작시간보다 큰거만
