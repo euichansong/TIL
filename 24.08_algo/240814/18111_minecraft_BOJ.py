@@ -15,7 +15,9 @@ maxh = max(map(max,land))
 minh = min(map(min,land))
 answer = []
 for t in range(minh,maxh+1):
+    add = 0
+    remove = 0
     for i in range(n):
         for j in range(m):
-            pass
+            if
 
