@@ -4,7 +4,7 @@ global answer로 시도하려니까 안되는데;
 정사각형이 아니라 ny의 범위를 바꿔줘야 한다
 """
 from collections import deque
-
+from typing import List
 
 class Solution:
     def countSubIslands(self, grid1: List[List[int]], grid2: List[List[int]]) -> int:
