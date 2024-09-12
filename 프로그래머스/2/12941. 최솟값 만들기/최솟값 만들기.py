@@ -1,14 +1,7 @@
-"""
-가장 큰수 * 가장 작은수?
-1000*1000이니까 백트레킹, 재귀 x
-
-"""
 def solution(A,B):
     answer = 0
-    a = sorted(A)
-    b = sorted(B,reverse=True)
-    # print(a,b)
-    for i in range(len(a)):
-        answer += a[i]*b[i]
+
+    # [실행] 버튼을 누르면 출력 값을 볼 수 있습니다.
+    print('Hello Python')
 
     return answer
