@@ -7,7 +7,7 @@ b = nl.copy()
 b.sort()
 bb = b[n//2]
 
-dict = {}
+dict = {} # {1: 1}
 for i in range(n):
     if b[i] not in dict:
         dict[b[i]] = 1
@@ -25,7 +25,7 @@ print(a)
 print(bb)
 
 if len(mxl) > 1:
-    mxl.sort()
+    # mxl.sort()
     print(mxl[1])
 else:
     print(mxl[0])
