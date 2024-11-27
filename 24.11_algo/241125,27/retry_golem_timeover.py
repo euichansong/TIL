@@ -13,9 +13,11 @@ from collections import deque
 sys.stdin = open('input.txt')
 
 r, c, k = map(int, input().split())
+# 가상의 행 생성
+r = r + 2
 forest = [[0] * c for _ in range(r)]
 dict = {}
-
+ans = 0
 # 숲 초기화
 def reset():
     global forest
@@ -45,13 +47,24 @@ def left(sr,sc,r,c):
             continue
         else:
             # 보드 안에 있는지
+            aa = sr + nr
+            bb = sc + nc
             if sr+nr < r and 0<= sc+nc < c and forest[sr+nr][sc+nc] == 0:
+
+                cc = forest[aa][bb]
                 continue
             else:
                 tf = False
                 break
     return tf
-
+"""
+[0, 1, 0, 0, 0, 0] 
+[4, 1, 1, 1, 0, 0] 
+[0, 1, 1, 1, 1, 0] 
+[0, 1, 0, 4, 4, 0] 
+[1, 1, 1, 1, 1, 1] 
+[0, 4, 0, 0, 1, 0]
+"""
 # right
 def right(sr,sc,r,c):
     global forest
@@ -63,6 +76,9 @@ def right(sr,sc,r,c):
         else:
             # 보드 안에 있는지
             if sr+nr < r and 0<= sc+nc < c and forest[sr+nr][sc+nc] == 0:
+                aa = sr + nr
+                bb = sc + nc
+                cc = forest[aa][bb]
                 continue
             else:
                 tf = False
@@ -70,31 +86,35 @@ def right(sr,sc,r,c):
     return tf
 
 # 0,1,2,3은 북, 동, 남, 서
+# sr ci가 골렘 정령 좌표
 def golem(sr,ci,di,r,c):
     global forest
     flag = True
-
     val = []
+    # 가상의 행에 정령 있는경우 리셋
+    if 0 <= sr <= 1:
+        flag = False
+        return flag
+
     for x,y in [[0,0],[0,1],[1,0],[-1,0],[0,-1]]:
         if not(0<= sr+x < r and 0<= ci + y < c):
             flag = False
             return flag
         else:
+            if 0 <= sr+x <= 1:
+                flag = False
+                return flag
             forest[sr+x][ci+y] = 1
             val.append([sr+x,ci+y])
     if di == 0:
         forest[sr -1][ci] = 4
-        key = (sr - 1, ci)
-
     elif di == 1:
         forest[sr][ci+1] = 4
-        key = (sr, ci+1)
     elif di == 2:
         forest[sr+1][ci] = 4
-        key = (sr + 1, ci)
     else:
         forest[sr][ci-1] = 4
-        key = (sr, ci-1)
+    key = (sr,ci)
     if key not in dict:
         dict[key] = val
     return flag
@@ -104,22 +124,39 @@ def bfs(sx,sy,r,c):
     q.append([sx,sy])
     visited = [[0] * c for _ in range(r)]
     visited[sx][sy] = 1
-    max_r = []
+    max_r = 0
     while q:
         px,py = q.popleft()
-        for mx,my in [[0,1],[1,0],[0,-1],[-1,0]]:
-            nx = mx + px
-            ny = my + py
-            if 0 <= nx < r and 0 <= ny < c and visited[nx][ny] == 0:
-                if forest[nx][ny] == 1:
-                    visited[nx][ny] = visited[px][py] + 1
-                    max_r.append(nx)
-                elif forest[nx][ny] == 4:
-                    q.append([nx,ny])
-                    visited[nx][ny] = visited[px][py] + 1
-                    max_r.append(nx)
-    if max_r:
-        print(max(max_r)+1)
+        max_r = max(px,max_r)
+        if max_r-1 == r:
+            return max_r-1
+        # 정령이 dict의 key, 골렘의 몸체가 value
+        for nx,ny in dict[(px,py)]:
+            if visited[nx][ny] == 0:
+                visited[nx][ny] = 1
+                max_r = max(nx, max_r)
+                if max_r - 1 == r:
+                    return max_r - 1
+                # 출구인 경우 4방향 탐색해 넘어갈수 있는 골렘 있는지 확인
+                if forest[nx][ny] == 4:
+                    for dx, dy in [[0, 1], [1, 0], [0, -1], [-1, 0]]:
+                        dmx = nx+dx
+                        dmy = ny+dy
+                        if 0 <= dmx < r and 0 <= dmy < c and visited[dmx][dmy] == 0:
+                            # 이 좌표가 value에 들어있으면
+                            for k,v in dict.items():
+                                if [dmx,dmy] in v:
+                                    # k는 dict의 중심점 이니까 그걸 q에 넣어준다
+                                    # q에 골렘의 중심점만 들어간다
+                                    visited[k[0]][k[1]] = 1
+                                    q.append(k)
+    return max_r-1
+"""
+그러면 처음도 4방향을 도는게 아니라 dict에서 찾아서 그 좌표를 q에 넣고 visited를 해줘 
+> 4인경우 옆골렘까지 q에 넣어야해 4의 옆 좌표가 존재 한다면
+> 그 좌표가 들어있는 골렘의 중심을 dict에서 찾아서 q에 중심점을 넣어
+> dict를 중심점을 key로 하는게 맞지
+"""
 
 
 # 행 r, 열 c
@@ -152,11 +189,15 @@ for start in range(k):
     # 숲에 골렘 넣기
     if not golem(sr, ci, di,r,c):
         reset()
+        continue
 
     #골렘 내리기
-    # bfs(sr,ci,r,c)
-    print(dict)
+    if dict:
+        max_r_bfs = bfs(sr,ci,r,c)
+        # print(max_r_bfs)
+        ans += max_r_bfs
 
-    for i in range(r):
-        print(forest[i])
-    print("=====================")
+    # for i in range(r):
+    #     print(forest[i])
+    # print("=====================")
+print(ans)
