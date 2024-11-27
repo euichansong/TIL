@@ -1,44 +1,44 @@
-"""
-인접한 4칸, 3칸에 바다 있으면 없어진다
-8방향 검사
-"""
-import sys
-import copy
+from copy import deepcopy
 
-r, c = map(int, input().split())
-nowmap = [list(input()) for _ in range(r)]
-future = copy.deepcopy(nowmap)
 
-dx = [1, 0, -1, 0]
-dy = [0, 1, 0, -1]
+R, C = map(int,input().split())
+di = [1,0,-1,0]
+dj = [0,-1,0,1]
+land = []
+lastland_i = []
+lastland_j = []
+sea = [ list(input()) for _ in range(R)]
+newsea = deepcopy(sea)
+for i in range(R):
+    for j in range(C):
+        if sea[i][j] == 'X':
+            land.append([i,j])
 
-# 지형 변화
-for i in range(r):
-    for j in range(c):
-        if nowmap[i][j] == 'X':  # 육지인 경우
-            cnt = 0
-            for p in range(4):
-                nx = i + dx[p]
-                ny = j + dy[p]
-                # 바다이거나 맵을 벗어난 경우
-                if not (0 <= nx < r and 0 <= ny < c) or nowmap[nx][ny] == '.':
-                    cnt += 1
-            if cnt >= 3:
-                future[i][j] = '.'
+for k in land:
+    ki = k[0]
+    kj = k[1]
+    cnt = 0
+    for l in range(4):
+        next_i = ki + di[l]
+        next_j = kj + dj[l]
+        if 0 > next_i or next_i >= R or 0 > next_j or next_j >= C :
+            cnt+=1
+        elif sea[next_i][next_j] == ".":
+            cnt+=1
 
-# 모든 섬을 포함하는 직사각형 범위 계산
-minga, maxga = r, -1
-minse, maxse = c, -1
+    if cnt>=3:
+        newsea[ki][kj] = '.'
+        cnt = 0
+    else:
+        lastland_i.append(ki)
+        lastland_j.append(kj)
 
-for i in range(r):
-    for j in range(c):
-        if future[i][j] == 'X':
-            minga = min(minga, i)
-            minse = min(minse, j)
-            maxga = max(maxga, i)
-            maxse = max(maxse, j)
-
-# 최소 직사각형 출력
-for ii in range(minga, maxga + 1):
-    print(''.join(future[ii][minse:maxse + 1]))
+lastland_i.sort()
+lastland_j.sort()
+start_i = lastland_i[0]
+end_i = lastland_i[-1]
+start_j = lastland_j[0]
+end_j = lastland_j[-1]
+for n in range(start_i,end_i+1):
+    print(''.join(newsea[n][start_j:end_j+1]))
 
