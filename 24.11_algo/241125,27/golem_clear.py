@@ -186,7 +186,7 @@ print(ans)
 """dict 사용 시간초과 코드
 import sys
 from collections import deque
-sys.stdin = open('input.txt')
+sys.stdin = open('11501.txt')
 
 r, c, k = map(int, input().split())
 # 가상의 행 생성
