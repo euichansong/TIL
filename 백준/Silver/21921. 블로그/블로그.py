@@ -1,3 +1,6 @@
+"""
+1 초	512 MB
+"""
 import sys
 input = sys.stdin.readline
 
@@ -23,3 +26,26 @@ if max_vi == 0:
 else:
     print(max_vi)
     print(ans)
+
+# 시간초과
+# import sys
+# input = sys.stdin.readline
+# n,x= map(int, input().split())
+# visit = list(map(int, input().split()))
+# dp = [0] * n
+# for i in range(n-x):
+#     dp[i] = sum(visit[i:i+x])
+# for i in range(n-x,n):
+#     dp[i] = sum(visit[i:])
+# max_vis = max(dp)
+# ans = 0
+# for i in dp:
+#     if i == max_vis:
+#         ans += 1
+
+# if max_vis == 0:
+#     print("SAD")
+# else:
+#     print(max_vis)
+#     print(ans)
+
