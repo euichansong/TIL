@@ -39,12 +39,7 @@ for _ in range(1, n):
             # 기준 단어가 다 pop된 경우
             else:
                 break
-        if f > 2:
-            continue
-        # 1글자 차이인 경우
-        if len(cw) == 0:
-            ans += 1
-        elif len(cw) <2 and f < 2:
+        if len(cw) <2 and f < 2:
             ans += 1
 
 print(ans)
