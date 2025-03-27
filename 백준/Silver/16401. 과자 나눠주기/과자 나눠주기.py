@@ -14,6 +14,8 @@ input = sys.stdin.readline
 # 조카 m 과자 n
 m,n = map(int, input().split())
 snack = list(map(int, input().split()))
+
+# 역정렬
 snack.sort(reverse=True)
 
 l = 1
@@ -34,12 +36,5 @@ while l <= r:
     else:
         r = mid -1
 
-print(r)
-
-
-
-
-
-
-
+print(l-1)
 
