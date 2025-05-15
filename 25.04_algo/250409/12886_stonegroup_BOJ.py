@@ -6,26 +6,6 @@ x y
 x+x, y-x
 
 크기 차이 많이 나는걸로 바꿔야 하나
-10 35 15
-20 25
-
-1 1 7
-
-2 0 7
-
-1 2 6
-1 6
-2 5
-2 2 5
-2 5
-4
-
-
-25 15 20
-30 10
-20 20
-15 35
-30 20
 
 3배수 아니면 무조건 0
 
@@ -35,6 +15,7 @@ x+x, y-x
 """
 import sys
 from collections import deque
+sys.stdin = open("input.txt")
 a,b,c = map(int,input().split())
 
 total = a + b + c
@@ -68,7 +49,3 @@ else:
                     q.append(new_state)
     else:
         print(0)
-
-
-
-
