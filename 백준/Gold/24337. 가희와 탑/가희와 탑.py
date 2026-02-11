@@ -70,7 +70,7 @@ else:
             nowb[i] = i+1
         core = nowa + nowb[::-1]
 
-    now = [1] * (n - (a+b-1))
+    now = [1] * (n - (a+b) + 1)
     # a가 1이면 맨앞이 가장 큰 건물이어야 한다 
     # 5 1 3 >> 3 1 1 2 1 이렇게
     if a == 1:
@@ -78,3 +78,8 @@ else:
     else:
         ans = now + core
     print(*(ans))
+
+
+
+
+
