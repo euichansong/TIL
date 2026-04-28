@@ -13,6 +13,7 @@ def puz(dif,time,limit,level):
         if dif[i] <= level:
             clear += time[i]
         elif dif[i] > level:
+            # (난이도 - 숙련도) * (이전퍼즐시간+ 지금 퍼즐시간) + 지금 퍼즐 시간
             clear += (dif[i] - level)*(time[i-1]+time[i]) + time[i]
         if clear > limit:
             return False
